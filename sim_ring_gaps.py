@@ -15,10 +15,15 @@ import numpy as np
 # Constants for calculations
 G = 6.67430e-11
 AU = 1.495978707e11
-# Mass of the central body (The Sun)
-M = 1.9885e30
-# Simulate over 10 orbital periods of the earth.
-ORBITAL_PERIODS = 10
+# Mass of the central body (Saturn)
+M = 5.6834e26
+# Mass of Mimas
+m = 3.7493e19
+# total time of simulation (in seconds)
+TIME = 100000000000000
+
+particles = [[np.random.randint(-100, 100), np.random.randint(-100, 100)]
+             for _ in range(1000)]
 
 
 # General case for a single step in the RK# methods.
@@ -34,15 +39,8 @@ def get_ks(vx, vy, x, y, vxo, vyo, xo, yo, t):
 
 # Simulate an orbit using a certain orbital approximation method.
 def orbit(method, t, x, y, vx, vy):
-    # Create arrays so max x/y can be stored to measure eccentricity.
-    # Plot the initial point and add its distances to their respective arrays.
-    xs = [abs(x)]
-    ys = [abs(y)]
-    print("distances at vy =", vy/1e3, "km/s", end=': ')
     plt.plot(x, y, 'ro')
-    # Simulate 10 earth orbits.
-    # 1 earth week * 52 weeks * 10 years
-    for _ in range(52 * ORBITAL_PERIODS):
+    for _ in range(TIME):
         # Simulate the euler, rk2, and rk4 methods based on input.
         if method == 'euler':
             r = np.sqrt(x**2 + y**2)
@@ -84,13 +82,6 @@ def orbit(method, t, x, y, vx, vy):
         # Plot each point and add its distance's absolute values to their
         # arrays so that eccentricity can be found.
         plt.plot(x, y, 'ro')
-        xs.append(abs(x))
-        ys.append(abs(y))
-    # After each simulation of the method is complete, find the maximum
-    # distances in the x and y directions to look for eccentricity/other
-    # anomalies in the orbits.
-    print("max (x, y): (", round(max(xs) / AU, 3), " AU, ",
-          round(max(ys) / AU, 3), " AU)", sep='')
 
 
 # Make the scales for the plots equal on both axes.
@@ -100,22 +91,9 @@ plt.gca().set_aspect('equal')
 # the initial vy.
 for method in ['euler', 'rk2', 'rk4']:
     # Start each orbit at Earth's location.
-    x = 1 * AU
-    y = 0
-    # Make the time step 1 Earth week.
-    t = 60 * 60 * 24 * 7
+    t = TIME / 1e5
     vx = 0
-    print(method)
-    # Simulate the method with the given vy, save the plotted orbit, and clear
-    # the plot for the next simulation.
-    orbit(method, t, x, y, vx, vy=29.8e3)
-    plt.savefig(method + "_29.8.png")
-    plt.cla()
-
-    orbit(method, t, x, y, vx, vy=42.1e3)
-    plt.savefig(method + "_42.1.png")
-    plt.cla()
-
-    orbit(method, t, x, y, vx, vy=32.7e3)
-    plt.savefig(method + "_32.7.png")
+    for p in particles:
+        orbit(method, t, p[0], p[1], vx, vy=29.8e3)
+    plt.savefig(method + ".png")
     plt.cla()
