@@ -21,11 +21,10 @@ M = 5.6834e26
 m = 3.7493e19
 # total time of simulation (in seconds)
 TIME = 100000000000000
+NUM_PARTICLES = 100000000
+LIM = 13000000000
 
-lim = 13000000000
-
-particles = [[np.random.randint(-lim, lim), np.random.randint(-lim, lim)]
-             for _ in range(1000)]
+particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
 
 
 # General case for a single step in the RK# methods.
