@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Tyler Kaminski
 # Adham Abdelwahab
@@ -86,11 +86,10 @@ def orbit(method, t, x, y, vx, vy):
 # Make the scales for the plots equal on both axes.
 plt.gca().set_aspect('equal')
 
-for method in ['euler', 'rk2', 'rk4']:
-    # Start each orbit at Earth's location.
-    t = TIME / 1e5
-    for _ in range(TIME):
-        for x, y in particles:
-            plt.plot(x, y, 'ro')
-            orbit(method, t, x, y, 0, 0)
-        plt.cla()
+# Orbit simulation method to use. Avialable methods: 'euler', 'rk2', and 'rk4'
+method = 'rk4'
+t = TIME / 1e5
+for _ in range(TIME):
+    for x, y in particles:
+        orbit(method, t, x, y, 0, 0)
+    plt.cla()
