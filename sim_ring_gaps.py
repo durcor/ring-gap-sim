@@ -19,12 +19,17 @@ AU = 1.495978707e11
 M = 5.6834e26
 # Mass of Mimas
 m = 3.7493e19
+# Distance from Saturn to Mimas
+d = 1.8552e8
 # total time of simulation (in seconds)
 TIME = 100000000000000
-NUM_PARTICLES = 100000000
+NUM_PARTICLES = 1000
 LIM = 13000000000
+method = 'euler'
+t = TIME / 1e5
 
-particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
+# particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
+particles = [[float(i), 0.0] for i in range(110000000, 130000000, 100000)]
 
 
 # General case for a single step in the RK# methods.
@@ -42,10 +47,11 @@ def get_ks(vx, vy, x, y, vxo, vyo, xo, yo, t):
 def orbit(method, t, x, y, vx, vy):
     # Simulate the euler, rk2, and rk4 methods based on input.
     if method == 'euler':
-        r = np.sqrt(float(x)**2 + float(y)**2)
+        rs = np.sqrt(x**2 + y**2)
+        rm = np.sqrt((x - xm)**2 + (y - ym)**2)
 
-        ax = -G * M * (x/r**3)
-        ay = -G * M * (y/r**3)
+        ax = -G * M * (x/rs**3) - G * m * (x - xm)/rm**3
+        ay = -G * M * (y/rs**3) - G * m * (y - ym)/rm**3
 
         x += vx * t + ax/2 * t**2
         y += vy * t + ay/2 * t**2
@@ -84,12 +90,28 @@ def orbit(method, t, x, y, vx, vy):
 
 
 # Make the scales for the plots equal on both axes.
+# TODO: Start Mimas at x=0
+# Start all particles at x=0
 plt.gca().set_aspect('equal')
 
 # Orbit simulation method to use. Avialable methods: 'euler', 'rk2', and 'rk4'
-method = 'rk4'
-t = TIME / 1e5
-for _ in range(TIME):
+for n in range(TIME):
+    xm = d * np.cos(n * t)
+    ym = d * np.sin(n * t)
+    vx, vy = 0, 0
     for x, y in particles:
-        orbit(method, t, x, y, 0, 0)
-    plt.cla()
+        rs = np.sqrt(x**2 + y**2)
+        rm = np.sqrt((x - xm)**2 + (y - ym)**2)
+
+        ax = -G * M * (x/rs**3) - G * m * (x - xm)/rm**3
+        ay = -G * M * (y/rs**3) - G * m * (y - ym)/rm**3
+
+        x += vx * t + ax/2 * t**2
+        y += vy * t + ay/2 * t**2
+
+        vx += ax * t
+        vy += ay * t
+        plt.plot(x, y, 'ro')
+        plt.draw()
+        plt.pause(0.0000001)
+    # plt.cla()
