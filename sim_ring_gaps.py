@@ -9,7 +9,7 @@
 # I pledge my honor that I have abided by the Stevens Honor System.
 #
 # Plot orbital positions to images using matplotlib.
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plot
 import numpy as np
 
 # Constants for calculations
@@ -84,15 +84,15 @@ def orbit(method, t, x, y, vx, vy):
 
         vx += (k1vx + 2 * k2vx + 2 * k3vx + k4vx)/6
         vy += (k1vy + 2 * k2vy + 2 * k3vy + k4vy)/6
-    plt.plot(x, y, 'ro')
-    plt.draw()
-    plt.pause(0.0000001)
+    plot.plot(x, y, 'ro')
+    plot.draw()
+    plot.pause(0.0000001)
 
 
 # Make the scales for the plots equal on both axes.
 # TODO: Start Mimas at x=0
 # Start all particles at x=0
-plt.gca().set_aspect('equal')
+plot.gca().set_aspect('equal')
 
 # Orbit simulation method to use. Avialable methods: 'euler', 'rk2', and 'rk4'
 for n in range(TIME):
@@ -111,7 +111,7 @@ for n in range(TIME):
 
         vx += ax * t
         vy += ay * t
-        plt.plot(x, y, 'ro')
-        plt.draw()
-        plt.pause(0.0000001)
-    # plt.cla()
+        plot.plot(x, y, 'ro')
+        plot.draw()
+        plot.pause(0.0000001)
+    # plot.cla()
