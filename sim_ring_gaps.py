@@ -26,10 +26,10 @@ TIME = 100000000000000
 NUM_PARTICLES = 1000
 LIM = 13000000000
 method = 'euler'
-t = TIME / 1e5
+t = TIME // 100000
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
-particles = [[float(i), 0.0] for i in range(110000000, 130000000, 1000000)]
+particles = np.array([[float(i), 0.0] for i in range(110000000, 130000000, 1000000)])
 
 
 # General case for a single step in the RK# methods.
@@ -95,23 +95,23 @@ def orbit(method, t, x, y, vx, vy):
 plot.gca().set_aspect('equal')
 
 # Orbit simulation method to use. Avialable methods: 'euler', 'rk2', and 'rk4'
-for n in range(TIME):
+for n in range(0, TIME, t):
     xm = d * np.cos(n * t)
     ym = d * np.sin(n * t)
     vx, vy = 0, 0
-    for x, y in particles:
-        rs = np.sqrt(x**2 + y**2)
-        rm = np.sqrt((x - xm)**2 + (y - ym)**2)
+    for p in particles:
+        rs = np.sqrt(p[0]**2 + p[1]**2)
+        rm = np.sqrt((p[0] - xm)**2 + (p[1] - ym)**2)
 
-        ax = -G * M * (x/rs**3) - G * m * (x - xm)/rm**3
-        ay = -G * M * (y/rs**3) - G * m * (y - ym)/rm**3
+        ax = -G * M * (p[0]/rs**3) - G * m * (p[0] - xm)/rm**3
+        ay = -G * M * (p[1]/rs**3) - G * m * (p[1] - ym)/rm**3
 
-        x += vx * t + ax/2 * t**2
-        y += vy * t + ay/2 * t**2
+        p[0] += vx * t + ax/2 * t**2
+        p[1] += vy * t + ay/2 * t**2
 
         vx += ax * t
         vy += ay * t
-        plot.plot(x, y, 'ro')
+        plot.plot(p[0], p[1], 'ro')
         plot.draw()
         plot.pause(0.0000001)
     # plot.cla()
