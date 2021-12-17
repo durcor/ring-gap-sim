@@ -92,19 +92,19 @@ def orbit(method, t, x, y, vx, vy):
 # Start all particles at x=0
 
 # Orbit simulation method to use. Avialable methods: 'euler', 'rk2', and 'rk4'
-for n in range(TIME):
+for n in range(0, TIME, t):
     xm = d * np.cos(n * t)
     ym = d * np.sin(n * t)
     vx, vy = 0, 0
-    for x, y in particles:
-        rs = np.sqrt(x**2 + y**2)
-        rm = np.sqrt((x - xm)**2 + (y - ym)**2)
+    for p in particles:
+        rs = np.sqrt(p[0]**2 + p[1]**2)
+        rm = np.sqrt((p[0] - xm)**2 + (p[1] - ym)**2)
 
-        ax = -G * M * (x/rs**3) - G * m * (x - xm)/rm**3
-        ay = -G * M * (y/rs**3) - G * m * (y - ym)/rm**3
+        ax = -G * M * (p[0]/rs**3) - G * m * (p[0] - xm)/rm**3
+        ay = -G * M * (p[1]/rs**3) - G * m * (p[1] - ym)/rm**3
 
-        x += vx * t + ax/2 * t**2
-        y += vy * t + ay/2 * t**2
+        p[0] += vx * t + ax/2 * t**2
+        p[1] += vy * t + ay/2 * t**2
 
         vx += ax * t
         vy += ay * t
