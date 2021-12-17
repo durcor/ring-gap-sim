@@ -29,7 +29,7 @@ method = 'euler'
 t = TIME / 1e5
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
-particles = [[float(i), 0.0] for i in range(110000000, 130000000, 100000)]
+particles = [[float(i), 0.0] for i in range(110000000, 130000000, 1000000)]
 
 
 # General case for a single step in the RK# methods.
