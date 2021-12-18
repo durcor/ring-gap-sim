@@ -91,7 +91,7 @@ def orbit(method, t, x, y, vx, vy):
 v = np.array([[ 0, np.sqrt((G * M)/ x[0])] for x in p])
 
 #plot saturn
-plot.scatter(0,0)
+plot.plot(0,0,"yo")
 
 # TODO: Start Mimas at x=0
 # Start all particles at x=0
@@ -100,10 +100,10 @@ plot.scatter(0,0)
 #omega
 w = np.sqrt((G * M)/(d**3))
 for n in range(0, TIME * t, t):
-    xm = d * np.cos(n  * w)
-    ym = d * np.sin(n  * w)
-    plot.scatter(xm, ym)
-    plot.pause(0.0000001)
+    xm = d * np.cos(n * w)
+    ym = d * np.sin(n * w)
+    plot.plot(xm, ym, 'ro')
+    plot.pause(0.000000000000000000001)
     for i in range(len(p)):
         rs = np.sqrt(p[i][0]**2 + p[i][1]**2)
         rm = np.sqrt((p[i][0] - xm)**2 + (p[i][1] - ym)**2)
@@ -115,6 +115,6 @@ for n in range(0, TIME * t, t):
         p[i][1] += v[i][0] * t + ay/2 * t**2
         v[i][0] += ax * t
         v[i][0] += ay * t
-        ##plot.scatter(p[i][0], p[i][1])
-        ##plot.pause(0.00000000000000000001)
+        ##plot.plot(p[i][0], p[i][1], "go")
+        ##plot.pause(0.00000000000000000000001)
 plot.show()
