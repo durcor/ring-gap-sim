@@ -21,15 +21,15 @@ M = 5.6834e26
 m = 3.7493e19 * 1000
 # Distance from Saturn to Mimas
 d = 1.8552e8
-# total time of simulation (in seconds)
-TIME = 100
+# total time of simulation (in days)
+TIME = 200
 NUM_PARTICLES = 1000
 LIM = 13000000000
 method = 'euler'
-t = 86400
+t = 81360
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
-p = np.array([[float(i), 0.0] for i in range(110000000, 130000000, 1000000)])
+p = np.array([[float(i), 0.0] for i in range(110000000, 130000000, 10000000)])
 
 
 # General case for a single step in the RK# methods.
@@ -87,26 +87,27 @@ def orbit(method, t, x, y, vx, vy):
     plot.scatter(x, y)
 
 
-# Make the scales for the plots equal on both axes.
 # TODO: Start Mimas at x=0
 # Start all particles at x=0
-
+v = np.array([[ 0, np.sqrt((G * M)/ x[0])] for x in p])
+plot.scatter(0,0)
 # Orbit simulation method to use. Avialable methods: 'euler', 'rk2', and 'rk4'
-for n in range(0, TIME, t):
-    xm = d * np.cos(n)
-    ym = d * np.sin(n)
-    vx, vy = 0, 0
+for n in range(0, TIME * t, t):
+    xm = d * np.cos(n  * np.sqrt((G * M)/(d**3)))
+    ym = d * np.sin(n  * np.sqrt((G * M)/(d**3)))
+    plot.scatter(xm, ym)
+    plot.pause(0.0000001)
     for i in range(len(p)):
         rs = np.sqrt(p[i][0]**2 + p[i][1]**2)
         rm = np.sqrt((p[i][0] - xm)**2 + (p[i][1] - ym)**2)
 
-        ax = -G * M * (p[i][0]/rs**3) - G * m * (p[i][0] - xm)/rm**3
-        ay = -G * M * (p[i][1]/rs**3) - G * m * (p[i][1] - ym)/rm**3
+        ax = (-G * M * p[i][0]/rs**3) - ((G * m * (p[i][0] - xm)/rm**3))
+        ay = (-G * M * p[i][1]/rs**3) - ((G * m * (p[i][1] - ym)/rm**3))
 
-        p[i][0] += vx * t + ax/2 * t**2
-        p[i][1] += vy * t + ay/2 * t**2
-        vx += ax * t
-        vy += ay * t
-        plot.scatter(p[i][0], p[i][1])
-        plot.pause(0.000000001)
+        p[i][0] += v[i][0] * t + ax/2 * t**2
+        p[i][1] += v[i][0] * t + ay/2 * t**2
+        v[i][0] += ax * t
+        v[i][0] += ay * t
+        ##plot.scatter(p[i][0], p[i][1])
+        ##plot.pause(0.00000000000000000001)
 plot.show()
