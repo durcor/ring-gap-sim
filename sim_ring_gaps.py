@@ -29,7 +29,7 @@ TIME = 2000 * t
 
 INNER_LIM = 11000000000
 OUTER_LIM = 13000000000
-NUM_PARTICLES = 1000
+NUM_PARTICLES = 20
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
 p = np.array([(float(i), 0.0) for i in range(INNER_LIM, OUTER_LIM,
@@ -93,15 +93,18 @@ def orbit(method, t, x, y, vx, vy):
 
 
 plot.gca().set_aspect('equal')
-# array for initial velocity of every particle
 
-# Plot Saturn
-plot.plot(0, 0, 'yo')
+# array for initial velocity of every particle
+v = np.array([(0, np.sqrt(G * M / x)) for x, _ in p])
+
+# plot saturn
+plot.plot(0, 0, "yo")
+
 w = np.sqrt(G * M / d**3)
 for n in range(0, TIME, t):
     xm = d * np.cos(n * w)
     ym = d * np.sin(n * w)
-    plot.plot(xm, ym, 'go')
+    plot.plot(xm, ym, 'ro')
     for i in range(len(p)):
         rs = np.sqrt(p[i][0]**2 + p[i][1]**2)
         rm = np.sqrt((p[i][0] - xm)**2 + (p[i][1] - ym)**2)
@@ -113,6 +116,6 @@ for n in range(0, TIME, t):
         p[i][1] += v[i][1] * t + ay/2 * t**2
         v[i][0] += ax * t
         v[i][1] += ay * t
-        plot.plot(p[i][0], p[i][1], 'ro')
+        plot.plot(p[i][0], p[i][1], "go")
     plot.pause(0.00000001)
 # plot.savefig('ring_gap.png')
