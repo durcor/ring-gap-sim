@@ -22,14 +22,14 @@ m = 3.7493e19 * 1000
 # Distance from Saturn to Mimas
 d = 1.8552e8
 # total time of simulation (in seconds)
-TIME = 100000000000000
+TIME = 100
+NUM_PARTICLES = 1000
 LIM = 13000000000
 method = 'euler'
-t = TIME // 100000
+t = 86400
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
 p = np.array([[float(i), 0.0] for i in range(110000000, 130000000, 1000000)])
-print("Number of particles used:", len(p))
 
 
 # General case for a single step in the RK# methods.
@@ -84,15 +84,12 @@ def orbit(method, t, x, y, vx, vy):
 
         vx += (k1vx + 2 * k2vx + 2 * k3vx + k4vx)/6
         vy += (k1vy + 2 * k2vy + 2 * k3vy + k4vy)/6
-    plot.plot(x, y, 'ro')
-    plot.draw()
-    plot.pause(0.0000001)
+    plot.scatter(x, y)
 
 
 # Make the scales for the plots equal on both axes.
 # TODO: Start Mimas at x=0
 # Start all particles at x=0
-plot.gca().set_aspect('equal')
 
 # Orbit simulation method to use. Avialable methods: 'euler', 'rk2', and 'rk4'
 for n in range(0, TIME, t):
@@ -110,7 +107,6 @@ for n in range(0, TIME, t):
         p[i][1] += vy * t + ay/2 * t**2
         vx += ax * t
         vy += ay * t
-        plot.plot(p[i][0], p[i][1], 'ro')
-        plot.draw()
-        plot.pause(0.00000000000000000001)
-    # plot.cla()
+        plot.scatter(p[i][0], p[i][1])
+        plot.pause(0.000000001)
+plot.show()
