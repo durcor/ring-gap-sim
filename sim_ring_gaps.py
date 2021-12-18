@@ -115,6 +115,6 @@ for n in range(0, TIME * t, t):
         p[i][1] += v[i][0] * t + ay/2 * t**2
         v[i][0] += ax * t
         v[i][0] += ay * t
-        ##plot.plot(p[i][0], p[i][1], "go")
-        ##plot.pause(0.00000000000000000000001)
+        plot.plot(p[i][0], p[i][1], "go")
+        plot.pause(0.00000000000000000000001)
 plot.show()
