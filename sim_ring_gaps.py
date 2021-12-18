@@ -18,18 +18,18 @@ AU = 1.495978707e11
 # Mass of the central body (Saturn)
 M = 5.6834e26
 # Mass of Mimas
-m = 3.7493e19
+m = 3.7493e19 * 1000
 # Distance from Saturn to Mimas
 d = 1.8552e8
 # total time of simulation (in seconds)
 TIME = 100000000000000
-NUM_PARTICLES = 1000
 LIM = 13000000000
 method = 'euler'
 t = TIME // 100000
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
-particles = np.array([[float(i), 0.0] for i in range(110000000, 130000000, 1000000)])
+p = np.array([[float(i), 0.0] for i in range(110000000, 130000000, 1000000)])
+print("Number of particles used:", len(p))
 
 
 # General case for a single step in the RK# methods.
@@ -96,22 +96,21 @@ plot.gca().set_aspect('equal')
 
 # Orbit simulation method to use. Avialable methods: 'euler', 'rk2', and 'rk4'
 for n in range(0, TIME, t):
-    xm = d * np.cos(n * t)
-    ym = d * np.sin(n * t)
+    xm = d * np.cos(n)
+    ym = d * np.sin(n)
     vx, vy = 0, 0
-    for p in particles:
-        rs = np.sqrt(p[0]**2 + p[1]**2)
-        rm = np.sqrt((p[0] - xm)**2 + (p[1] - ym)**2)
+    for i in range(len(p)):
+        rs = np.sqrt(p[i][0]**2 + p[i][1]**2)
+        rm = np.sqrt((p[i][0] - xm)**2 + (p[i][1] - ym)**2)
 
-        ax = -G * M * (p[0]/rs**3) - G * m * (p[0] - xm)/rm**3
-        ay = -G * M * (p[1]/rs**3) - G * m * (p[1] - ym)/rm**3
+        ax = -G * M * (p[i][0]/rs**3) - G * m * (p[i][0] - xm)/rm**3
+        ay = -G * M * (p[i][1]/rs**3) - G * m * (p[i][1] - ym)/rm**3
 
-        p[0] += vx * t + ax/2 * t**2
-        p[1] += vy * t + ay/2 * t**2
-
+        p[i][0] += vx * t + ax/2 * t**2
+        p[i][1] += vy * t + ay/2 * t**2
         vx += ax * t
         vy += ay * t
-        plot.plot(p[0], p[1], 'ro')
+        plot.plot(p[i][0], p[i][1], 'ro')
         plot.draw()
-        plot.pause(0.0000001)
+        plot.pause(0.00000000000000000001)
     # plot.cla()
