@@ -21,14 +21,14 @@ M = 5.6834e26
 m = 3.7493e19 * 10
 # Distance from Saturn to Mimas
 d = 1.8552e8
-# total time of simulation (in seconds)
-NUM_PARTICLES = 1000
 LIM = 13000000000
 method = 'euler'
-# time step
-t = 86400
+# time step (length of one orbit of Mimas in seconds)
+t = 60 * 60 * 22.6
+# total time of simulation
 TIME = t * 1000
 
+NUM_PARTICLES = 1000
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
 p = np.array([(float(i), 0.0) for i in range(110000000, 130000000, 5000000)])
 
@@ -92,12 +92,15 @@ def orbit(method, t, x, y, vx, vy):
 # TODO: Start Mimas at x=0
 # Start all particles at x=0
 
+# Plot Saturn
+plot.plot(0, 0, 'yo')
+
 # Orbit simulation method to use. Avialable methods: 'euler', 'rk2', and 'rk4'
 w = np.sqrt(G * M / d**3)
 for n in range(0, TIME, t):
     xm = d * np.cos(n * t)
     ym = d * np.sin(n * t)
-    plot.plot(xm, ym, 'yo')
+    # plot.plot(xm, ym, 'go')
     vo = np.sqrt(G * M / d)
     vx = -vo * np.sin(n * t)
     vy = vo * np.cos(n * t)
