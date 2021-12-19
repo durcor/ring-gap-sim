@@ -27,9 +27,9 @@ t = int(60 * 60 * 22.6 / 1000)
 # total time of simulation (in mimas days)
 TIME = 2000 * t
 
-INNER_LIM = 120000000
-OUTER_LIM = 140000000
-NUM_PARTICLES = 1
+INNER_LIM = 100000000
+OUTER_LIM = 160000000
+NUM_PARTICLES = 5
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
 p = np.array([[float(i), 0.0] for i in range(INNER_LIM, OUTER_LIM,
