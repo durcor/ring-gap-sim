@@ -23,18 +23,18 @@ m = 3.7493e19 * 10
 d = 1.8552e8
 method = 'euler'
 # time step (length of one orbit of Mimas in seconds)
-t = int(60 * 60 * 22.6)
+t = int(60 * 60 * 22.6 / 1000)
 # total time of simulation (in mimas days)
 TIME = 2000 * t
 
-INNER_LIM = 11000000000
-OUTER_LIM = 13000000000
-NUM_PARTICLES = 20
+INNER_LIM = 120000000
+OUTER_LIM = 140000000
+NUM_PARTICLES = 1
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
-p = np.array([(float(i), 0.0) for i in range(INNER_LIM, OUTER_LIM,
+p = np.array([[float(i), 0.0] for i in range(INNER_LIM, OUTER_LIM,
                                              (OUTER_LIM - INNER_LIM) // NUM_PARTICLES)])
-v = np.array([(0, np.sqrt(G * M / x)) for x, _ in p])
+v = np.array([[0.0, np.sqrt(G * M / x)] for x, _ in p])
 
 
 # General case for a single step in the RK# methods.
@@ -93,13 +93,10 @@ def orbit(method, t, x, y, vx, vy):
 
 
 plot.gca().set_aspect('equal')
-
-# array for initial velocity of every particle
-v = np.array([(0, np.sqrt(G * M / x)) for x, _ in p])
-
 # plot saturn
 plot.plot(0, 0, "yo")
 
+#omega used for calculating position of mimas
 w = np.sqrt(G * M / d**3)
 for n in range(0, TIME, t):
     xm = d * np.cos(n * w)
@@ -112,10 +109,11 @@ for n in range(0, TIME, t):
         ax = (-G * M * p[i][0]/rs**3) - ((G * m * (p[i][0] - xm)/rm**3))
         ay = (-G * M * p[i][1]/rs**3) - ((G * m * (p[i][1] - ym)/rm**3))
 
-        p[i][0] += v[i][0] * t + ax/2 * t**2
-        p[i][1] += v[i][1] * t + ay/2 * t**2
+        p[i][0] += (v[i][0] * t) + (ax/2 * t**2)
+        p[i][1] += (v[i][1] * t) + (ay/2 * t**2)
         v[i][0] += ax * t
         v[i][1] += ay * t
         plot.plot(p[i][0], p[i][1], "go")
-    plot.pause(0.00000001)
+        plot.pause(0.00000001)
+plot.show()
 # plot.savefig('ring_gap.png')
