@@ -18,7 +18,7 @@ AU = 1.495978707e11
 # Mass of the central body (Saturn)
 M = 5.6834e26
 # Mass of Mimas
-m = 3.7493e19 * 10
+m = 3.7493e19
 # Distance from Saturn to Mimas
 d = 1.8552e8
 method = 'euler'
@@ -27,14 +27,14 @@ t = int(60 * 60 * 22.6)
 # total time of simulation (in mimas days)
 TIME = 2000 * t
 
-INNER_LIM = 11000000000
-OUTER_LIM = 13000000000
-NUM_PARTICLES = 20
+INNER_LIM = int(d - 1000000)
+OUTER_LIM = int(d + 1000000)
+NUM_PARTICLES = 10
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
-p = np.array([(float(i), 0.0) for i in range(INNER_LIM, OUTER_LIM,
-                                             (OUTER_LIM - INNER_LIM) // NUM_PARTICLES)])
-v = np.array([(0, np.sqrt(G * M / x)) for x, _ in p])
+p = np.array([(float(i), 0.0) for i in range(
+    INNER_LIM, OUTER_LIM, (OUTER_LIM - INNER_LIM) // NUM_PARTICLES)])
+v = np.array([(0.0, np.sqrt(G * M / x)) for x, _ in p])
 
 
 # General case for a single step in the RK# methods.
@@ -92,10 +92,7 @@ def orbit(method, t, x, y, vx, vy):
     plot.scatter(x, y)
 
 
-plot.gca().set_aspect('equal')
-
-# array for initial velocity of every particle
-v = np.array([(0, np.sqrt(G * M / x)) for x, _ in p])
+# plot.gca().set_aspect('equal')
 
 # plot saturn
 plot.plot(0, 0, "yo")
@@ -109,13 +106,13 @@ for n in range(0, TIME, t):
         rs = np.sqrt(p[i][0]**2 + p[i][1]**2)
         rm = np.sqrt((p[i][0] - xm)**2 + (p[i][1] - ym)**2)
 
-        ax = (-G * M * p[i][0]/rs**3) - ((G * m * (p[i][0] - xm)/rm**3))
-        ay = (-G * M * p[i][1]/rs**3) - ((G * m * (p[i][1] - ym)/rm**3))
+        ax = -G * M * p[i][0] / rs**3 - G * m * (p[i][0] - xm) / rm**3
+        ay = -G * M * p[i][1] / rs**3 - G * m * (p[i][1] - ym) / rm**3
 
         p[i][0] += v[i][0] * t + ax/2 * t**2
         p[i][1] += v[i][1] * t + ay/2 * t**2
         v[i][0] += ax * t
         v[i][1] += ay * t
         plot.plot(p[i][0], p[i][1], "go")
-    plot.pause(0.00000001)
+    plot.pause(0.001)
 # plot.savefig('ring_gap.png')
