@@ -27,11 +27,9 @@ t = int(60 * 60 * 22.6 / 1000)
 # total time of simulation (in mimas days)
 TIME = 2000 * t
 
-INNER_LIM = int(d - 100000000)
-# INNER_LIM = 100000000
-OUTER_LIM = int(d + 100000000)
-# OUTER_LIM = 160000000
-NUM_PARTICLES = 10
+INNER_LIM = 100000000
+OUTER_LIM = 160000000
+NUM_PARTICLES = 1000
 
 # particles = np.random.randint(-LIM, LIM, (NUM_PARTICLES, 2))
 p = np.array([(float(i), 0.0) for i in range(
@@ -112,10 +110,10 @@ for n in range(0, TIME, t):
         ax = -G * M * p[i][0] / rs**3 - G * m * (p[i][0] - xm) / rm**3
         ay = -G * M * p[i][1] / rs**3 - G * m * (p[i][1] - ym) / rm**3
 
-        p[i][0] += (v[i][0] * t) + (ax/2 * t**2)
-        p[i][1] += (v[i][1] * t) + (ay/2 * t**2)
+        p[i][0] += v[i][0] * t + ax/2 * t**2
+        p[i][1] += v[i][1] * t + ay/2 * t**2
         v[i][0] += ax * t
         v[i][1] += ay * t
-        plot.plot(p[i][0], p[i][1], "go")
+        plot.plot(p[i][0], p[i][1], "go", markersize=1)
     # plot.pause(0.00000001)
 plot.savefig('ring_gap.png')
