@@ -76,6 +76,7 @@ def orbit(interactive, num_particles, show_all, mimas_multiplier,
     if not interactive:
         plot.savefig('img/mimas_mult=' + str(mimas_multiplier) + '&p=' +
                      str(num_particles) + '&t=' + str(num_time_steps) + '.png')
+        print('Image Saved')
 
 
 orbit(interactive=False, num_particles=100, show_all=False,
