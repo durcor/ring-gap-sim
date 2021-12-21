@@ -83,4 +83,4 @@ def orbit(interactive, num_particles, show_all, mimas_multiplier,
 
 
 orbit(interactive=False, num_particles=1000, show_all=False,
-      mimas_multiplier=100, num_time_steps=20000)
+      mimas_multiplier=10000, num_time_steps=2000)

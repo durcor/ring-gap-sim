@@ -8,7 +8,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <matplotlibcpp.h>
 
 // Constants for calculations
 float G = 6.67430e-11;
@@ -29,9 +28,11 @@ void orbit(int num_particles, int mimas_multiplier, int num_time_steps)
 	// num_particles (int): The number of particles to simulate.
 	// mimas_multiplier (int): Multipler of Mimas' mass.
 	// num_time_steps (int): The number of time steps to simulate.
+	int INNER_LIM = 25000 * pow(10, 3);
+	int OUTER_LIM = 75000 * pow(10, 3);
 	// Entire range of Saturn's rings
-	int INNER_LIM = 74500 * pow(10, 3);
-	int OUTER_LIM = 140220 * pow(10, 3);
+	// int INNER_LIM = 74500 * pow(10, 3);
+	// int OUTER_LIM = 140220 * pow(10, 3);
 	// Range around the Cassini Division including B and A rings.
 	// INNER_LIM = 92000 * 10**3
 	// OUTER_LIM = 136780 * 10**3
@@ -68,16 +69,19 @@ void orbit(int num_particles, int mimas_multiplier, int num_time_steps)
 			v[i][1] += ay * t;
 		}
 	}
-	// Print out the positions of the particles
-	printf("Coordinates of Saturn: %f %f\n", 0.0, 0.0);
-	printf("Coordinates of Mimas: %f %f\n", xm, ym);
-	puts("Particle Coordinates:");
+	printf("%f, %f\n", xm, ym);
 	for (int i = 0; i < num_particles; ++i)
-		printf("%f %f\n", p[i][0], p[i][1]);
+		printf("%f, %f\n", p[i][0], p[i][1]);
 }
 
-int main()
+int main(int argc, char **argv)
 {
-	orbit(1000, 100, 200000);
+	if (argc != 4) {
+		fprintf(stderr,
+			"Usage: %s <num_particles> <mimas_multiplier> <num_time_steps>\n",
+			argv[0]);
+		return 1;
+	}
+	orbit(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]));
 	return 0;
 }
