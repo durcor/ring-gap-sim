@@ -21,17 +21,14 @@ double d = 1.8552e8;
 // time step (1 minute)
 int t = 1;
 
+// Plot the orbit of Mimas and massless ring particles around Saturn.
+// Parameters:
+// num_particles: The number of particles to simulate.
+// mimas_multiplier: Multipler of Mimas' mass.
+// num_time_steps: The number of time steps to simulate.
 void orbit(int num_particles, int mimas_multiplier, int num_time_steps)
 {
-	// Plot the orbit of Mimas and massless ring particles around Saturn.
-
-	// Parameters:
-	// num_particles (int): The number of particles to simulate.
-	// mimas_multiplier (int): Multipler of Mimas' mass.
-	// num_time_steps (int): The number of time steps to simulate.
-	// int INNER_LIM = 25000 * pow(10, 3);
-	// int OUTER_LIM = 75000 * pow(10, 3);
-	// Entire range of Saturn's rings
+	// Range of entirety of Saturn's rings.
 	// int INNER_LIM = 74500 * pow(10, 3);
 	// int OUTER_LIM = 140220 * pow(10, 3);
 	// Range around the Cassini Division including B and A rings.
@@ -53,7 +50,6 @@ void orbit(int num_particles, int mimas_multiplier, int num_time_steps)
 	for (int n = 0; n < num_time_steps * t; n += t) {
 		xm = d * cos(n * w);
 		ym = d * sin(n * w);
-		// Plot Saturn and Mimas
 		for (int i = 0; i < num_particles; ++i) {
 			double rs =
 				sqrt(pow(p[i].first, 2) + pow(p[i].second, 2));
