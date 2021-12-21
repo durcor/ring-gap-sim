@@ -36,8 +36,12 @@ def orbit(interactive, num_particles, show_all, mimas_multiplier,
     mimas_multiplier (int): Multipler of Mimas' mass.
     num_time_steps (int): The number of time steps to simulate.
     """
-    INNER_LIM = 100000 * 10**3
-    OUTER_LIM = 160000 * 10**3
+    # Entire range of Saturn's rings
+    INNER_LIM = 74500 * 10**3
+    OUTER_LIM = 140220 * 10**3
+    # Range around the Cassini Division including B and A rings.
+    # INNER_LIM = 92000 * 10**3
+    # OUTER_LIM = 136780 * 10**3
 
     # particles = np.random.randint(-OUTER_LIM, OUTER_LIM, (num_particles, 2))
     p = np.array([(float(i), 0.0) for i in range(
@@ -48,7 +52,6 @@ def orbit(interactive, num_particles, show_all, mimas_multiplier,
 
     # omega used for calculating position of mimas
     w = np.sqrt(G * M / d**3)
-    xm, ym, rm = 0, 0, 0
     for n in range(0, num_time_steps * t, t):
         if not show_all:
             plot.cla()
@@ -61,10 +64,10 @@ def orbit(interactive, num_particles, show_all, mimas_multiplier,
         for i in range(len(p)):
             rs = np.sqrt(p[i][0]**2 + p[i][1]**2)
             rm = np.sqrt((p[i][0] - xm)**2 + (p[i][1] - ym)**2)
-            ax = -G * M * p[i][0] / rs**3 - G * m * mimas_multiplier * \
-                (p[i][0] - xm) / rm**3
-            ay = -G * M * p[i][1] / rs**3 - G * m * mimas_multiplier * \
-                (p[i][1] - ym) / rm**3
+            ax = -G * M * p[i][0] / rs**3 - \
+                G * m * mimas_multiplier * (p[i][0] - xm) / rm**3
+            ay = -G * M * p[i][1] / rs**3 - \
+                G * m * mimas_multiplier * (p[i][1] - ym) / rm**3
             p[i][0] += v[i][0] * t + ax/2 * t**2
             p[i][1] += v[i][1] * t + ay/2 * t**2
             v[i][0] += ax * t
@@ -79,5 +82,5 @@ def orbit(interactive, num_particles, show_all, mimas_multiplier,
         print('Image Saved')
 
 
-orbit(interactive=False, num_particles=100, show_all=False,
+orbit(interactive=False, num_particles=1000, show_all=False,
       mimas_multiplier=100, num_time_steps=20000)
