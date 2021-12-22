@@ -273,11 +273,11 @@ plot.savefig('img/mimas_mult=' + sys.argv[2] + '&p=' + sys.argv[1] + '&t=' +
 ```
 
 ## Results
-![good](img/mimas_mult=10000&p=10000&t=1000000.png =400x)
-![good](img/mimas_mult=0&p=10000&t=1000000.png =400x)
+![good](img/mimas_mult=10000&p=10000&t=1000000.png){width=50%}
+![good](img/mimas_mult=0&p=10000&t=1000000.png){width=50%}
 
-![good](img/mimas_mult=10000&p=1000&t=1000000.png =400x)
-![good](img/mimas_mult=0&p=1000&t=1000000.png =400x)
+![good](img/mimas_mult=10000&p=1000&t=1000000.png){width=50%}
+![good](img/mimas_mult=0&p=1000&t=1000000.png){width=50%}
 
 ## Conclusions
 With the introduction of Mimas, the orbits of the particles become unstable, with gaps and perturbations occurring throughout the rings.
