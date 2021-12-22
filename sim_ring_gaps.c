@@ -23,7 +23,7 @@ int t = 1;
 // Plot the orbit of Mimas and massless ring particles around Saturn.
 // Parameters:
 // num_particles: The number of particles to simulate.
-// mimas_multiplier: Multipler of Mimas' mass.
+// mimas_multiplier: Multiplier of Mimas' mass.
 // num_time_steps: The number of time steps to simulate.
 void orbit(int num_particles, int mimas_multiplier, int num_time_steps)
 {
