@@ -17,7 +17,7 @@ float M = 5.6834e26;
 float m = 3.7493e19;
 // Distance from Saturn to Mimas
 float d = 1.8552e8;
-// time step (1 minute)
+// time step (1 second)
 int t = 1;
 
 // Plot the orbit of Mimas and massless ring particles around Saturn.
@@ -33,6 +33,9 @@ void orbit(int num_particles, int mimas_multiplier, int num_time_steps)
 	// Range around the Cassini Division including B and A rings.
 	int INNER_LIM = 92000 * pow(10, 3);
 	int OUTER_LIM = 136780 * pow(10, 3);
+	// Range of only the Cassini Division.
+	// int INNER_LIM = 117580 * pow(10, 3);
+	// int OUTER_LIM = 122170 * pow(10, 3);
 
 	float p[num_particles][2];
 	float v[num_particles][2];
