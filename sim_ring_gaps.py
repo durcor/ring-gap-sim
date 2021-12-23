@@ -10,7 +10,7 @@ if len(sys.argv) != 4:
           "<num_particles> <mimas_multiplier> <num_time_steps>")
     exit(1)
 subprocess.run(
-    "clang -lm -fsanitize=safe-stack -Ofast -march=native sim_ring_gaps.c -o sim_ring_gaps",
+    "clang -lm -Ofast -march=native sim_ring_gaps.c -o sim_ring_gaps",
     shell=True, check=True)
 data_filename = 'data/mimas_mult=' + sys.argv[2] + '&p=' + sys.argv[1] + \
     '&t=' + sys.argv[3] + '.csv'
